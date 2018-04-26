@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^logout$', views.logout),
     url(r'^add$', views.add),
     url(r'^create$', views.create),    
-    # url(r'^book/(?P<book_id>/d+)$', views.book),    
-    url(r'^', views.odell)
+    url(r'^book/(?P<book_id>\d+)$', views.book),   
+    # url(r'^', views.odell)
 ]

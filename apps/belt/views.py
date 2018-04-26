@@ -60,7 +60,8 @@ def main(request):
     context = {
         'user' : User.objects.get(id = request.session['user_id']),
         'books' : Book.objects.all(),
-        'booksy' : Book.objects.all()[2:]      
+        'reviewsy' : Review.objects.all()[2:],
+        'reviews' : Review.objects.all() 
     }
     return render (request, 'belt/main.html', context)
 
@@ -72,17 +73,19 @@ def add(request):
     return render(request,'belt/add.html')
 
 def create(request):
-    Book.objects.create(title = request.POST['title'], author = request.POST['author'], review = request.POST['review'], rating = request.POST['rating'], uploader = User.objects.get(id = request.session['user_id']))
+    this_book = Book.objects.create(title = request.POST['title'], author = request.POST['author'], uploader = User.objects.get(id = request.session['user_id']))
+    Review.objects.create(content = request.POST['review'], rating = request.POST['rating'],reviewer = User.objects.get(id = request.session['user_id']), book = this_book)
     return redirect('/main')
-    # user  = User.objects.get(id = request.session['user_id'])
-    # x = user.name
-    # print x
-    # print "Created Book"
-    # Book.objects.create(title = "Steven" author = "Steven Sedul", review = "ha", rating = "4", uploader = "Steven")
-    # the_book = Book.objects.create(title = request.POST['title'], author = request.POST['author'], review = request.POST['review'], rating = request.POST['rating'], uploader = User.objects.get(id = request.session['user_id']))
-    # Book.objects.create(title = request.POST['title'], author = request.POST['author'], review = request.POST['review'], rating = request.POST['rating'], uploader = user)
-    # Book.objects.create(title = request.POST['title'], author = request.POST['author'], review = request.POST['review'], rating = request.POST['rating'] uploader = x)
-    return redirect('/main')
+
+def book(request, book_id):
+    print 'book'
+    context = {
+        'jay' : 'silent bob',
+        'id'  :  book_id,
+        # 'review' :  Review.objects.get(id = book_id),
+        'this_book'  : Book.objects.get(id = book_id)
+    }
+    return render(request, 'belt/book.html', context)
 
 
 def odell (request):
